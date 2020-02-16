@@ -342,9 +342,11 @@ for i=0,3,1 do
                                         --print("playerHand",playerHand)
                                         --print("highestPlayerHand",highestPlayerHand)
                                         --print("================")
-                                        if playerHand > highestPlayerHand and playerHand <= 21 then
-                                            highestPlayerHand = playerHand
-                                            --print("highestPlayerHand",highestPlayerHand,"= playerHand",playerHand)
+                                        if playerHand ~= nil then
+                                            if playerHand > highestPlayerHand and playerHand <= 21 then
+                                                highestPlayerHand = playerHand
+                                                --print("highestPlayerHand",highestPlayerHand,"= playerHand",playerHand)
+                                            end
                                         end
                                     end
                                 end
