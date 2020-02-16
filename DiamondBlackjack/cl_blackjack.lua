@@ -694,14 +694,6 @@ function startSingleDealerDealing(dealerPed,gameId,cardData,nextCardCount,gotCur
     --print("startSingleDealerDealing", chairId)
     N_0x469f2ecdec046337(1)
     StartAudioScene("DLC_VW_Casino_Cards_Focus_Hand") --need to stream this
-    blackjackCam = CreateCam(26379945,1)
-    bLocal217 = false --no idea could be false or true :?
-    local someOffSetOfSomeObject = blackjack_func_205(closestChair,blackjack_func_368(closestChair),bLocal217)
-    local someOffSetOfSomeObjectRot = blackjack_func_204(closestChair,blackjack_func_368(closestChair),bLocal217)
-    --line 10698    
-    SetCamParams(blackjackCam, someOffSetOfSomeObject.x, someOffSetOfSomeObject.y, someOffSetOfSomeObject.z, someOffSetOfSomeObjectRot.x, someOffSetOfSomeObjectRot.y, someOffSetOfSomeObjectRot.z, 35.3669, 0, 1, 1, 2); --FoV is either 35 or 40
-    ShakeCam(blackjackCam, "HAND_SHAKE", 0.03)
-    RenderScriptCams(true, 0, 3000, 1, 0, 0)
     blackjack_func_400() --request all 52 card models
     --AUDIO::_0xF8AD2EED7C47E8FE(iVar1, false, 1); call sound on dealer
     ----------------THIS CREATES A CARD AT THE MACHINE WHERE THE CARD COMES OUT OF-----------------------
@@ -747,14 +739,6 @@ end
 function startSingleDealing(chairId,dealerPed,gameId,cardData,nextCardCount,gotCurrentHand)
     N_0x469f2ecdec046337(1)
     StartAudioScene("DLC_VW_Casino_Cards_Focus_Hand") --need to stream this
-    blackjackCam = CreateCam(26379945,1)
-    bLocal217 = false --no idea could be false or true :?
-    local someOffSetOfSomeObject = blackjack_func_205(chairId,blackjack_func_368(chairId),bLocal217)
-    local someOffSetOfSomeObjectRot = blackjack_func_204(chairId,blackjack_func_368(chairId),bLocal217)
-    --line 10698    
-    SetCamParams(blackjackCam, someOffSetOfSomeObject.x, someOffSetOfSomeObject.y, someOffSetOfSomeObject.z, someOffSetOfSomeObjectRot.x, someOffSetOfSomeObjectRot.y, someOffSetOfSomeObjectRot.z, 35.3669, 0, 1, 1, 2); --FoV is either 35 or 40
-    ShakeCam(blackjackCam, "HAND_SHAKE", 0.03)
-    RenderScriptCams(true, 0, 3000, 1, 0, 0)
     blackjack_func_400() --request all 52 card models
     --AUDIO::_0xF8AD2EED7C47E8FE(iVar1, false, 1); call sound on dealer
     ----------------THIS CREATES A CARD AT THE MACHINE WHERE THE CARD COMES OUT OF-----------------------
@@ -809,14 +793,6 @@ function startDealing(dealerPed,gameId,cardData,chairId,cardIndex,gotCurrentHand
     --NEXT --> func_90 the FAT FUNCTION
     N_0x469f2ecdec046337(1)
     StartAudioScene("DLC_VW_Casino_Cards_Focus_Hand") --need to stream this
-    blackjackCam = CreateCam(26379945,1)
-    bLocal217 = false --no idea could be false or true :?
-    local someOffSetOfSomeObject = blackjack_func_205(closestChair,blackjack_func_368(closestChair),bLocal217)
-    local someOffSetOfSomeObjectRot = blackjack_func_204(closestChair,blackjack_func_368(closestChair),bLocal217)
-    --line 10698    
-    SetCamParams(blackjackCam, someOffSetOfSomeObject.x, someOffSetOfSomeObject.y, someOffSetOfSomeObject.z, someOffSetOfSomeObjectRot.x, someOffSetOfSomeObjectRot.y, someOffSetOfSomeObjectRot.z, 35.3669, 0, 1, 1, 2); --FoV is either 35 or 40
-    ShakeCam(blackjackCam, "HAND_SHAKE", 0.03)
-    RenderScriptCams(true, 0, 3000, 1, 0, 0)
     blackjack_func_400() --request all 52 card models
     --AUDIO::_0xF8AD2EED7C47E8FE(iVar1, false, 1); call sound on dealer
     ----------------THIS CREATES A CARD AT THE MACHINE WHERE THE CARD COMES OUT OF-----------------------
