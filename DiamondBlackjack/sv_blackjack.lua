@@ -40,7 +40,8 @@ function tryTakeChips(source,amount)
 			return false
 		end
 	else
-    return true
+    	return true
+	end
 end
 
 function giveChips(source,amount)
