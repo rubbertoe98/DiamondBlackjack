@@ -32,7 +32,7 @@ function tryTakeChips(source,amount)
     if enableesx then
 		local xPlayer = ESX.GetPlayerFromId(source)
 		local item = xPlayer.getInventoryItem(ChipName)["count"]
-		
+
 		if item >= amount then
 			xPlayer.removeInventoryItem(ChipName, amount)
     		return true
