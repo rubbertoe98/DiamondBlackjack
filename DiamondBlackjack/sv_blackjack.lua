@@ -29,7 +29,7 @@ local blackjackGameInProgress = {}
 local blackjackGameData = {}
 
 function tryTakeChips(source,amount)
-    if enableesx then
+	if enableesx then
 		local xPlayer = ESX.GetPlayerFromId(source)
 		local item = xPlayer.getInventoryItem(ChipName)["count"]
 
