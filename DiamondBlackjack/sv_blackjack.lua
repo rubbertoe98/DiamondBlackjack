@@ -1,3 +1,10 @@
+local enableesx = false -- set true if you are using esx
+if enableesx then
+    ESX = nil
+    ChipName = "PUT ITEM NAME HERE!" -- one that you must insert in database also
+    TriggerEvent("esx:getSharedObject", function(obj) ESX = obj end)
+end
+
 local blackjackTables = {
     --[chairId] == false or source if taken
     [0] = false,
@@ -22,13 +29,27 @@ local blackjackGameInProgress = {}
 local blackjackGameData = {}
 
 function tryTakeChips(source,amount)
-    --returns true if taken chips succesfully
-    --returns false if doesn't have enough chips
-    return true
+    if enableesx then
+        local xPlayer = ESX.GetPlayerFromId(source)
+        local item = xPlayer.getInventoryItem(ChipName)["count"]
+
+        if item >= amount then
+            xPlayer.removeInventoryItem(ChipName, amount)
+            return true
+        elseif item < amount then
+            return false
+        end
+    else
+        return true
+    end
 end
 
 function giveChips(source,amount)
-    --gives amount in chips to source
+    if enableesx then
+        local xPlayer = ESX.GetPlayerFromId(source)
+
+        xPlayer.addInventoryItem(ChipName, amount) -- doesn't check item limit nor new weight system
+    end
 end
 
 AddEventHandler('playerDropped', function (reason)
@@ -38,6 +59,21 @@ AddEventHandler('playerDropped', function (reason)
             blackjackTables[k] = false
         end
     end
+end)
+
+RegisterCommand("debugtableserver",function()
+    print("blackjackTables")
+    print("===============")
+    print(dump(blackjackTables))
+    print("blackjackGameData")
+    print("===============")
+    print(dump(blackjackGameData))
+end)
+
+RegisterCommand("debugcarddata",function()
+    print("carddata")
+    print("===============")
+    print(dump(blackjackGameData[1024]))
 end)
 
 RegisterNetEvent("Blackjack:requestBlackjackTableData")
@@ -630,18 +666,3 @@ function dump(o)
        return tostring(o)
     end
  end
-
--- RegisterCommand("debugtableserver",function()
---     print("blackjackTables")
---     print("===============")
---     print(dump(blackjackTables))
---     print("blackjackGameData")
---     print("===============")
---     print(dump(blackjackGameData))
--- end)
-
--- RegisterCommand("debugcarddata",function()
---     print("carddata")
---     print("===============")
---     print(dump(blackjackGameData[1024]))
--- end)
