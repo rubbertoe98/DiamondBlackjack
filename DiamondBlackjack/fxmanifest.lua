@@ -1,8 +1,10 @@
-resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
+fx_version 'adamant'
+
+game "gta5"
 
 description "DiamondBlackjack created by Robbster"
 
-client_scripts{
+client_scripts {
 	"src/RMenu.lua",
 	"src/menu/RageUI.lua",
 	"src/menu/Menu.lua",
