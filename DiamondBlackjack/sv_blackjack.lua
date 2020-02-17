@@ -40,21 +40,6 @@ AddEventHandler('playerDropped', function (reason)
     end
 end)
 
-RegisterCommand("debugtableserver",function()
-    print("blackjackTables")
-    print("===============")
-    print(dump(blackjackTables))
-    print("blackjackGameData")
-    print("===============")
-    print(dump(blackjackGameData))
-end)
-
-RegisterCommand("debugcarddata",function()
-    print("carddata")
-    print("===============")
-    print(dump(blackjackGameData[1024]))
-end)
-
 RegisterNetEvent("Blackjack:requestBlackjackTableData")
 AddEventHandler("Blackjack:requestBlackjackTableData", function()
     local source = source
@@ -645,3 +630,18 @@ function dump(o)
        return tostring(o)
     end
  end
+
+-- RegisterCommand("debugtableserver",function()
+--     print("blackjackTables")
+--     print("===============")
+--     print(dump(blackjackTables))
+--     print("blackjackGameData")
+--     print("===============")
+--     print(dump(blackjackGameData))
+-- end)
+
+-- RegisterCommand("debugcarddata",function()
+--     print("carddata")
+--     print("===============")
+--     print(dump(blackjackGameData[1024]))
+-- end)
