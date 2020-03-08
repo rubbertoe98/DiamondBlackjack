@@ -17,7 +17,7 @@ function showCasinoExit(flag)
 end
 
 RageUI.CreateWhile(1.0, true, function()
-    if RageUI.Visible(RMenu:Get('casino_exit', 'casino')) then
+        if RageUI.Visible(RMenu:Get('casino_exit', 'casino')) then
         RageUI.DrawContent({ header = true, glare = true, instructionalButton = true }, function()           
             RageUI.Button("Exit Diamond Casino", "",{ RightLabel = "→→→" }, true, function(Hovered, Active, Selected)
                 if (Hovered) then
@@ -39,8 +39,6 @@ RageUI.CreateWhile(1.0, true, function()
             ---Panels
         end)
     end
-end, 1)
-RageUI.CreateWhile(1.0, true, function()
     if RageUI.Visible(RMenu:Get('casino_enter', 'casino')) then
         RageUI.DrawContent({ header = true, glare = true, instructionalButton = true }, function()           
             RageUI.Button("Enter Diamond Casino", "",{ RightLabel = "→→→" }, true, function(Hovered, Active, Selected)
@@ -58,11 +56,7 @@ RageUI.CreateWhile(1.0, true, function()
             ---Panels
         end)
     end
-end, 1)
-
-Citizen.CreateThread(function()
-    while true do 
-        if distanceToCasinoEntrance < 1.5  then 
+    if distanceToCasinoEntrance < 1.5  then 
             showCasinoEnter(true)
         elseif distanceToCasinoEntrance < 2.5 then 
             showCasinoEnter(false)
@@ -74,9 +68,10 @@ Citizen.CreateThread(function()
         end
         DrawMarker(27, casinoEntranceVector.x, casinoEntranceVector.y, casinoEntranceVector.z-1.0, 0, 0, 0, 0, 0, 0, 1.001, 1.0001, 0.5001, 255,255,255, 200, 0, 0, 0, 0)
         DrawMarker(27, casinoExitVector.x, casinoExitVector.y, casinoExitVector.z-1.0, 0, 0, 0, 0, 0, 0, 1.001, 1.0001, 0.5001, 255,255,255, 200, 0, 0, 0, 0)
-        Wait(0)
-    end
-end)
+     end
+end, 1)
+
+
 
 Citizen.CreateThread(function()
     while true do 
