@@ -32,3 +32,5 @@ Credits:
 * Thank you to RageUI for allowing the easy creation of the instructions & teleport menu
 * Rockstar for the decompiled scripts :heart: 
 
+My personal dev discord
+https://discord.gg/dnZTpUh
