@@ -229,6 +229,7 @@ Citizen.CreateThread(function()
                     closestDealerPed = getClosestDealer()
                     PlayAmbientSpeech1(closestDealerPed,"MINIGAME_DEALER_PLACE_CHIPS","SPEECH_PARAMS_FORCE_NORMAL_CLEAR",1) --TODO check this is the right sound?
                     putBetOnTable()
+                    Wait(1000)
                 else
                     notify("~r~Invalid amount.")
                 end
