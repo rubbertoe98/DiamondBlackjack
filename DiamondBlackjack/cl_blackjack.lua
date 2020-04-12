@@ -1419,7 +1419,7 @@ function blackjack_func_217(iParam0, vParam1, bParam2)
     else
         vVar0 = GetEntityCoords(iParam0,0)
     end
-    return GetDistanceBetweenCoords(vVar0.x,vVar0.y,vVar0.z, vParam1.x,vParam1.y,vParam1.z, bParam2)
+    return #(vVar0-vParam1)
 end
 
 function blackjack_func_218(iParam0, iParam1) --//param0 is 0-3 && param1 is 0-15?
