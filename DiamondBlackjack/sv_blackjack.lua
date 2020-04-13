@@ -1,22 +1,10 @@
 local blackjackTables = {
     --[chairId] == false or source if taken
-    [0] = false,
-    [1] = false,
-    [2] = false,
-    [3] = false,
-    [4] = false,
-    [5] = false,
-    [6] = false,
-    [7] = false,
-    [8] = false,
-    [9] = false,
-    [10] = false,
-    [11] = false,
-    [12] = false,
-    [13] = false,
-    [14] = false,
-    [15] = false,
 }
+
+for i=0,127,1 do
+    blackjackTables[i] = false
+end
 
 local blackjackGameInProgress = {}
 local blackjackGameData = {}
@@ -127,7 +115,7 @@ AddEventHandler("Blackjack:standBlackjack",function(gameId,nextCardCount)
     blackjackGameData[gameId][source][2][nextCardCount] = false
 end)
 
-for i=0,3,1 do
+for i=0,31,1 do
     Citizen.CreateThread(function()
         math.randomseed(os.clock()*100000000000)
         while true do  --blackjack game management thread
@@ -141,7 +129,7 @@ for i=0,3,1 do
             local chairIdFinal = (i*4)+3
             for chairID=chairIdInitial,chairIdFinal do
                 --print("checking chairID[" .. tostring(chairID) .. "] = " .. tostring(blackjackTables[chairID])) 
-                if blackjackTables[chairID] ~= false then   
+                if blackjackTables[chairID] ~= false then
                     table.insert(players_ready,blackjackTables[chairID])
                     game_ready = true
                 end
