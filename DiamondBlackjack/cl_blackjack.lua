@@ -85,8 +85,17 @@ RegisterCommand("getcasinotable",function()
         print("Found entity")
         print("tablePos pos",GetEntityCoords(blackjackTable))
         print("tableHeading heading",GetEntityHeading(blackjackTable))
+        print("prop: vw_prop_casino_blckjack_01")
     else
-        print("Could not find entity")
+        local blackjackTable2 = GetClosestObjectOfType(playerCoords.x,playerCoords.y,playerCoords.z,GetEntityHeading(PlayerPedId()),GetHashKey("vw_prop_casino_blckjack_01b"),0,0,0)
+        if DoesEntityExist(blackjackTable2) then
+            print("Found entity")
+            print("tablePos pos:",GetEntityCoords(blackjackTable2))
+            print("tableHeading heading:",GetEntityHeading(blackjackTable2))
+            print("prop: vw_prop_casino_blckjack_01")
+        else
+            print("Could not find entity")
+        end
     end
 end)
 
