@@ -9,11 +9,11 @@ Features:
 * All the juicy stuff you'd expect from blackjack
 * Optional fancy teleporter to enter diamond casino
 * Fancy menu showing how to play blackjack like GTA:O thanks to RageUI!
+* Dynamically configurable, ability to make any blackjack table playable
 
 Notes:
 * This is not linked to any framework and works natively, to add chips/money into your framework/gamemode complete the two functions named `tryTakeChips` and `giveChips` at the top of `sv_blackjack.lua`
 * There is no splitting or double down at this time, may come in the future
-* This will probably not work with Browns casino MLO posted on the forums, since it uses different coordinates. Though you could probably fix it with a few changes.
 * You will need the Diamond Casino interior - There might be one on the forums somewhere, I don't know if I'm allowed to link the one I used, but just search "diamond casino fivem" in youtube. The download link is in the description in the first video.
 
 Videos:
