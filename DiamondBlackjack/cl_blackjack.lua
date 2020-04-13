@@ -64,7 +64,7 @@ cfg.blackjackTables = {
         tablePos = vector3(1129.406, 262.3578, -52.041),
         tableHeading = 135.31,
         distance = 1000.0,
-        prop = "vw_prop_casino_blckjack_01"
+        prop = "vw_prop_casino_blckjack_01b"
     },
     [3] = {
         dealerPos = vector3(1143.859,246.783,-51.035),
@@ -72,7 +72,7 @@ cfg.blackjackTables = {
         tablePos = vector3(1144.429, 247.3352, -52.041),
         tableHeading = 135.31,
         distance = 1000.0,
-        prop = "vw_prop_casino_blckjack_01"
+        prop = "vw_prop_casino_blckjack_01b"
     },
 }
 
