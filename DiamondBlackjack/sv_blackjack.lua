@@ -323,18 +323,14 @@ for i=0,31,1 do
                                         end
                                     end
                                 end
-                                if highestPlayerHand < dealerHand then
-                                    --print("ending game early, dealer has higher than all players")
-                                else
-                                    while dealerHand < 17 do 
-                                        local randomCard = math.random(1,52)
-                                        --print("randomDealerCard: " .. tostring(randomCard))
-                                        table.insert(blackjackGameData[gameId]["dealer"]["cardData"], randomCard)
-                                        TriggerClientEvent("Blackjack:singleDealerCard",-1,gameId,randomCard,nextCardCount,getCurrentHand(gameId,"dealer"),tableId)
-                                        Wait(2800)
-                                        nextCardCount = nextCardCount + 1
-                                        dealerHand = getCurrentHand(gameId,"dealer")
-                                    end
+                                while dealerHand < 17 do 
+                                    local randomCard = math.random(1,52)
+                                    --print("randomDealerCard: " .. tostring(randomCard))
+                                    table.insert(blackjackGameData[gameId]["dealer"]["cardData"], randomCard)
+                                    TriggerClientEvent("Blackjack:singleDealerCard",-1,gameId,randomCard,nextCardCount,getCurrentHand(gameId,"dealer"),tableId)
+                                    Wait(2800)
+                                    nextCardCount = nextCardCount + 1
+                                    dealerHand = getCurrentHand(gameId,"dealer")
                                 end
                             end
                         end
