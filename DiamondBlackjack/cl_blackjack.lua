@@ -375,7 +375,7 @@ Citizen.CreateThread(function()
         closeToCasino = false
         for k,v in pairs(cfg.blackjackTables) do
             cfg.blackjackTables[k].distance = #(playerCoords-cfg.blackjackTables[k].tablePos)
-            if cfg.blackjackTables[k].distance < 50.0 then
+            if cfg.blackjackTables[k].distance < 100.0 then
                 closeToCasino = true
             end
         end
@@ -490,7 +490,9 @@ end)
 
 RegisterNetEvent("Blackjack:syncChipsPropBlackjack")
 AddEventHandler("Blackjack:syncChipsPropBlackjack",function(betAmount,chairId)
-    betBlackjack(betAmount,chairId)
+    if closeToCasino then
+        betBlackjack(betAmount,chairId)
+    end
 end)
 
 RegisterNetEvent("Blackjack:beginBetsBlackjack")
@@ -531,86 +533,94 @@ end)
 
 RegisterNetEvent("Blackjack:beginCardGiveOut")
 AddEventHandler("Blackjack:beginCardGiveOut",function(gameId,cardData,chairId,cardIndex,gotCurrentHand,tableId)
-    blackjackGameInProgress = true
-    --print("Blackjack:beginCardGiveOut",gameId,cardData,chairId,cardIndex,gotCurrentHand,tableId)
-    blackjackAnimsToLoad = {
-        "anim_casino_b@amb@casino@games@blackjack@dealer",
-        "anim_casino_b@amb@casino@games@shared@dealer@",
-        "anim_casino_b@amb@casino@games@blackjack@player",  
-        "anim_casino_b@amb@casino@games@shared@player@",
-    }
-    for k,v in pairs(blackjackAnimsToLoad) do 
-        RequestAnimDict(v)
-        while not HasAnimDictLoaded(v) do 
-            Wait(0)
+    if closeToCasino then
+        blackjackGameInProgress = true
+        --print("Blackjack:beginCardGiveOut",gameId,cardData,chairId,cardIndex,gotCurrentHand,tableId)
+        blackjackAnimsToLoad = {
+            "anim_casino_b@amb@casino@games@blackjack@dealer",
+            "anim_casino_b@amb@casino@games@shared@dealer@",
+            "anim_casino_b@amb@casino@games@blackjack@player",  
+            "anim_casino_b@amb@casino@games@shared@player@",
+        }
+        for k,v in pairs(blackjackAnimsToLoad) do 
+            RequestAnimDict(v)
+            while not HasAnimDictLoaded(v) do 
+                Wait(0)
+            end
         end
-    end
-    if sittingAtBlackjackTable and bettedThisRound then  
-        drawCurrentHand = true
-    end
-    dealerPed = getDealerFromTableId(tableId)
-    cardObj = startDealing(dealerPed,gameId,cardData,chairId,cardIndex+1,gotCurrentHand,((tableId+1)*4)-1)
-    if blackjack_func_368(closestChair) == tableId and gameId == chairId and cardIndex == 0 then
-        dealersHand = gotCurrentHand
-        blackjackInstructional = nil
-    end
-    dealerSecondCardFromGameId[gameId] = cardObj
-    if chairId == closestChair and gameId ~= chairId then
-        currentHand = gotCurrentHand
-        blackjackInstructional = nil
+        if sittingAtBlackjackTable and bettedThisRound then  
+            drawCurrentHand = true
+        end
+        dealerPed = getDealerFromTableId(tableId)
+        cardObj = startDealing(dealerPed,gameId,cardData,chairId,cardIndex+1,gotCurrentHand,((tableId+1)*4)-1)
+        if blackjack_func_368(closestChair) == tableId and gameId == chairId and cardIndex == 0 then
+            dealersHand = gotCurrentHand
+            blackjackInstructional = nil
+        end
+        dealerSecondCardFromGameId[gameId] = cardObj
+        if chairId == closestChair and gameId ~= chairId then
+            currentHand = gotCurrentHand
+            blackjackInstructional = nil
+        end
     end
 end)
 
 RegisterNetEvent("Blackjack:singleCard")
 AddEventHandler("Blackjack:singleCard",function(gameId,cardData,chairID,nextCardCount,gotCurrentHand,tableId)
-    dealerPed = getDealerFromTableId(tableId)
-    startSingleDealing(chairID,dealerPed,gameId,cardData,nextCardCount+1,gotCurrentHand)
+    if closeToCasino then
+        dealerPed = getDealerFromTableId(tableId)
+        startSingleDealing(chairID,dealerPed,gameId,cardData,nextCardCount+1,gotCurrentHand)
+    end
 end)
 
 RegisterNetEvent("Blackjack:singleDealerCard")
 AddEventHandler("Blackjack:singleDealerCard",function(gameId,cardData,nextCardCount,gotCurrentHand,tableId)
-    dealerPed = getDealerFromTableId(tableId)
-    startSingleDealerDealing(dealerPed,gameId,cardData,nextCardCount+1,gotCurrentHand,((tableId+1)*4)-1,tableId)
+    if closeToCasino then
+        dealerPed = getDealerFromTableId(tableId)
+        startSingleDealerDealing(dealerPed,gameId,cardData,nextCardCount+1,gotCurrentHand,((tableId+1)*4)-1,tableId)
+    end
 end)
 
 RegisterNetEvent("Blackjack:standOrHit")
 AddEventHandler("Blackjack:standOrHit",function(gameId,chairId,nextCardCount,tableId)
-    dealerPed = getDealerFromTableId(tableId)
-    standOrHitThisRound = false
-    if closestChair == chairId then
-        globalNextCardCount = nextCardCount
-        waitingForStandOrHitState = true
-        PlayAmbientSpeech1(dealerPed,"MINIGAME_BJACK_DEALER_ANOTHER_CARD","SPEECH_PARAMS_FORCE_NORMAL_CLEAR",1)
-        startStandOrHit(gameId,dealerPed,chairId,true)
-        Citizen.CreateThread(function()
-            if sittingAtBlackjackTable then
-                drawTimerBar = true
-                timeLeft = 20
-                while timeLeft > 0 do 
-                    timeLeft = timeLeft - 1
-                    if timeLeft == 6 then
-                        PlayAmbientSpeech1(dealerPed,"MINIGAME_DEALER_COMMENT_SLOW","SPEECH_PARAMS_FORCE_NORMAL_CLEAR",1) --TODO check this is the right sound?
+    if closeToCasino then
+        dealerPed = getDealerFromTableId(tableId)
+        standOrHitThisRound = false
+        if closestChair == chairId then
+            globalNextCardCount = nextCardCount
+            waitingForStandOrHitState = true
+            PlayAmbientSpeech1(dealerPed,"MINIGAME_BJACK_DEALER_ANOTHER_CARD","SPEECH_PARAMS_FORCE_NORMAL_CLEAR",1)
+            startStandOrHit(gameId,dealerPed,chairId,true)
+            Citizen.CreateThread(function()
+                if sittingAtBlackjackTable then
+                    drawTimerBar = true
+                    timeLeft = 20
+                    while timeLeft > 0 do 
+                        timeLeft = timeLeft - 1
+                        if timeLeft == 6 then
+                            PlayAmbientSpeech1(dealerPed,"MINIGAME_DEALER_COMMENT_SLOW","SPEECH_PARAMS_FORCE_NORMAL_CLEAR",1) --TODO check this is the right sound?
+                        end
+                        if standOrHitThisRound then
+                            --print("terminating standorhit timer thread")
+                            timeLeft = 20
+                            drawTimerBar = false
+                            return
+                            --print("failed it didnt terminate!")
+                        end
+                        Wait(1000)
                     end
-                    if standOrHitThisRound then
-                        --print("terminating standorhit timer thread")
-                        timeLeft = 20
-                        drawTimerBar = false
-                        return
-                        --print("failed it didnt terminate!")
-                    end
-                    Wait(1000)
                 end
-            end
-            if not standOrHitThisRound and sittingAtBlackjackTable then
-                --print("you took too long fam standing shit")
-                waitingForStandOrHitState = false
-                TriggerServerEvent("Blackjack:standBlackjack",globalGameId,globalNextCardCount)
-                declineCard()
-                drawNativeNotification("Failed to stand/hit in time, standing.")
-            end
-        end)
-    else 
-        startStandOrHit(gameId,dealerPed,chairId,false)
+                if not standOrHitThisRound and sittingAtBlackjackTable then
+                    --print("you took too long fam standing shit")
+                    waitingForStandOrHitState = false
+                    TriggerServerEvent("Blackjack:standBlackjack",globalGameId,globalNextCardCount)
+                    declineCard()
+                    drawNativeNotification("Failed to stand/hit in time, standing.")
+                end
+            end)
+        else 
+            startStandOrHit(gameId,dealerPed,chairId,false)
+        end
     end
 end)
 
@@ -974,142 +984,155 @@ end
 
 RegisterNetEvent("Blackjack:endStandOrHitPhase")
 AddEventHandler("Blackjack:endStandOrHitPhase",function(chairId,tableId)
-    --print("endstandorhitphase!")
-    dealerPed = getDealerFromTableId(tableId)
-    waitingForPlayerToHitOrStand = false
-    chairAnimId = getLocalChairIdFromGlobalChairId(chairId)
-    gender = getDealerGenderFromPed(dealerPed)
-    if gender == "male" then 
-        genderAnimString = "" 
-    end 
-    if gender == "female" then 
-        genderAnimString = "female_" 
-    end
-    --print("dealer ending anim: " .. "anim_casino_b@amb@casino@games@blackjack@dealer", genderAnimString .. "dealer_focus_player_0" .. chairAnimId .. "_idle_outro")
-    TaskPlayAnim(dealerPed, "anim_casino_b@amb@casino@games@blackjack@dealer", genderAnimString .. "dealer_focus_player_0" .. chairAnimId .. "_idle_outro", 3.0, 1.0, -1, 2, 0, 0, 0, 0 )
-    PlayFacialAnim(dealerPed, genderAnimString .. "dealer_focus_player_0" .. chairAnimId .. "_idle_outro_facial", "anim_casino_b@amb@casino@games@blackjack@dealer")
-end)
-
-RegisterNetEvent("Blackjack:bustBlackjack")
-AddEventHandler("Blackjack:bustBlackjack",function(chairID,tableId)
-    --print("bustBlackjack!")
-    dealerPed = getDealerFromTableId(tableId)
-    PlayAmbientSpeech1(dealerPed,"MINIGAME_BJACK_DEALER_PLAYER_BUST","SPEECH_PARAMS_FORCE_NORMAL_CLEAR",1)
-    TaskPlayAnim(dealerPed, "anim_casino_b@amb@casino@games@blackjack@dealer", "reaction_bad", 3.0, 1.0, -1, 2, 0, 0, 0, 0 )
-    --print("closestChair:",closestChair)
-    --print("getLocalChairIdFromGlobalChairId(closestChair):",getLocalChairIdFromGlobalChairId(closestChair))
-    --print("chairID+1:",chairID)
-    --print("sittingAtBlackjackTable:",sittingAtBlackjackTable)
-    if chairID == closestChair and sittingAtBlackjackTable then 
-        angryIBust()
-        drawCurrentHand = false
-        currentHand = 0
-        dealersHand = 0
-    end
-end)
-
-RegisterNetEvent("Blackjack:flipDealerCard")
-AddEventHandler("Blackjack:flipDealerCard",function(gotCurrentHand,tableId,gameId)
-    dealerPed = getDealerFromTableId(tableId)
-    flipDealerCard(dealerPed,gotCurrentHand,tableId,gameId)
-end)
-
-RegisterNetEvent("Blackjack:dealerBusts")
-AddEventHandler("Blackjack:dealerBusts",function(tableId)
-    dealerPed = getDealerFromTableId(tableId)
-    PlayAmbientSpeech1(dealerPed,"MINIGAME_DEALER_BUSTS","SPEECH_PARAMS_FORCE_NORMAL_CLEAR",1)
-end)
-
-RegisterNetEvent("Blackjack:blackjackLose")
-AddEventHandler("Blackjack:blackjackLose",function(tableId)
-    blackjackGameInProgress = false
-    dealerPed = getDealerFromTableId(tableId)
-    PlayAmbientSpeech1(dealerPed,"MINIGAME_DEALER_WINS","SPEECH_PARAMS_FORCE_NORMAL_CLEAR",1)
-    TaskPlayAnim(dealerPed, "anim_casino_b@amb@casino@games@blackjack@dealer", "reaction_bad", 3.0, 1.0, -1, 2, 0, 0, 0, 0 )
-    angryILost()
-    canExitBlackjack = true
-    drawNativeNotification("~r~You lose!")
-    drawCurrentHand = false
-    currentHand = 0
-    dealersHand = 0
-end)
-
-RegisterNetEvent("Blackjack:blackjackPush")
-AddEventHandler("Blackjack:blackjackPush",function(tableId)
-    blackjackGameInProgress = false
-    dealerPed = getDealerFromTableId(tableId)
-    TaskPlayAnim(dealerPed, "anim_casino_b@amb@casino@games@blackjack@dealer", "reaction_impartial", 3.0, 1.0, -1, 2, 0, 0, 0, 0 )
-    annoyedIPushed()
-    canExitBlackjack = true
-    drawNativeNotification("~b~You pushed!")
-    drawCurrentHand = false
-    currentHand = 0
-    dealersHand = 0
-end)
-
-RegisterNetEvent("Blackjack:blackjackWin")
-AddEventHandler("Blackjack:blackjackWin",function(tableId)
-    blackjackGameInProgress = false
-    dealerPed = getDealerFromTableId(tableId)
-    TaskPlayAnim(dealerPed, "anim_casino_b@amb@casino@games@blackjack@dealer", "reaction_good", 3.0, 1.0, -1, 2, 0, 0, 0, 0 )
-    happyIWon()
-    canExitBlackjack = true
-    drawNativeNotification("~g~You win!")
-    drawCurrentHand = false
-    currentHand = 0
-    dealersHand = 0
-end)
-
-RegisterNetEvent("Blackjack:chipsCleanup")
-AddEventHandler("Blackjack:chipsCleanup",function(chairId,tableId)
-    --print("chipsCleanup",chairId,"tableid",tableId)
-    if string.sub(chairId, -5) ~= "chips" then
+    if closeToCasino then
         dealerPed = getDealerFromTableId(tableId)
-        local gender = getDealerGenderFromPed(dealerPed)
+        waitingForPlayerToHitOrStand = false
+        chairAnimId = getLocalChairIdFromGlobalChairId(chairId)
+        gender = getDealerGenderFromPed(dealerPed)
         if gender == "male" then 
             genderAnimString = "" 
         end 
         if gender == "female" then 
             genderAnimString = "female_" 
         end
-        localChairId = getLocalChairIdFromGlobalChairId(chairId)
-        if chairId > 99 then --if "chairId" is above 99 its not a chair Id, its the gameId so its the dealers turn
-            TaskPlayAnim(dealerPed, "anim_casino_b@amb@casino@games@blackjack@dealer", genderAnimString .. "retrieve_own_cards_and_remove", 3.0, 1.0, -1, 2, 0, 0, 0, 0)
-            PlayFacialAnim(dealerPed, genderAnimString .. "retrieve_own_cards_and_remove_facial", "anim_casino_b@amb@casino@games@blackjack@dealer")
+        --print("dealer ending anim: " .. "anim_casino_b@amb@casino@games@blackjack@dealer", genderAnimString .. "dealer_focus_player_0" .. chairAnimId .. "_idle_outro")
+        TaskPlayAnim(dealerPed, "anim_casino_b@amb@casino@games@blackjack@dealer", genderAnimString .. "dealer_focus_player_0" .. chairAnimId .. "_idle_outro", 3.0, 1.0, -1, 2, 0, 0, 0, 0 )
+        PlayFacialAnim(dealerPed, genderAnimString .. "dealer_focus_player_0" .. chairAnimId .. "_idle_outro_facial", "anim_casino_b@amb@casino@games@blackjack@dealer")
+    end
+end)
+
+RegisterNetEvent("Blackjack:bustBlackjack")
+AddEventHandler("Blackjack:bustBlackjack",function(chairID,tableId)
+    if closeToCasino then
+        dealerPed = getDealerFromTableId(tableId)
+        PlayAmbientSpeech1(dealerPed,"MINIGAME_BJACK_DEALER_PLAYER_BUST","SPEECH_PARAMS_FORCE_NORMAL_CLEAR",1)
+        TaskPlayAnim(dealerPed, "anim_casino_b@amb@casino@games@blackjack@dealer", "reaction_bad", 3.0, 1.0, -1, 2, 0, 0, 0, 0 )
+        --print("closestChair:",closestChair)
+        --print("getLocalChairIdFromGlobalChairId(closestChair):",getLocalChairIdFromGlobalChairId(closestChair))
+        --print("chairID+1:",chairID)
+        --print("sittingAtBlackjackTable:",sittingAtBlackjackTable)
+        if chairID == closestChair and sittingAtBlackjackTable then 
+            angryIBust()
+            drawCurrentHand = false
+            currentHand = 0
+            dealersHand = 0
+        end
+    end
+end)
+
+RegisterNetEvent("Blackjack:flipDealerCard")
+AddEventHandler("Blackjack:flipDealerCard",function(gotCurrentHand,tableId,gameId)
+    if closeToCasino then
+        dealerPed = getDealerFromTableId(tableId)
+        flipDealerCard(dealerPed,gotCurrentHand,tableId,gameId)
+    end
+end)
+
+RegisterNetEvent("Blackjack:dealerBusts")
+AddEventHandler("Blackjack:dealerBusts",function(tableId)
+    if closeToCasino then
+        dealerPed = getDealerFromTableId(tableId)
+        PlayAmbientSpeech1(dealerPed,"MINIGAME_DEALER_BUSTS","SPEECH_PARAMS_FORCE_NORMAL_CLEAR",1)
+    end
+end)
+
+RegisterNetEvent("Blackjack:blackjackLose")
+AddEventHandler("Blackjack:blackjackLose",function(tableId)
+    if closeToCasino then
+        blackjackGameInProgress = false
+        dealerPed = getDealerFromTableId(tableId)
+        PlayAmbientSpeech1(dealerPed,"MINIGAME_DEALER_WINS","SPEECH_PARAMS_FORCE_NORMAL_CLEAR",1)
+        TaskPlayAnim(dealerPed, "anim_casino_b@amb@casino@games@blackjack@dealer", "reaction_bad", 3.0, 1.0, -1, 2, 0, 0, 0, 0 )
+        angryILost()
+        canExitBlackjack = true
+        drawNativeNotification("~r~You lose!")
+        drawCurrentHand = false
+        currentHand = 0
+        dealersHand = 0
+    end
+end)
+
+RegisterNetEvent("Blackjack:blackjackPush")
+AddEventHandler("Blackjack:blackjackPush",function(tableId)
+    if closeToCasino then
+        blackjackGameInProgress = false
+        dealerPed = getDealerFromTableId(tableId)
+        TaskPlayAnim(dealerPed, "anim_casino_b@amb@casino@games@blackjack@dealer", "reaction_impartial", 3.0, 1.0, -1, 2, 0, 0, 0, 0 )
+        annoyedIPushed()
+        canExitBlackjack = true
+        drawNativeNotification("~b~You pushed!")
+        drawCurrentHand = false
+        currentHand = 0
+        dealersHand = 0
+    end
+end)
+
+RegisterNetEvent("Blackjack:blackjackWin")
+AddEventHandler("Blackjack:blackjackWin",function(tableId)
+    if closeToCasino then
+        blackjackGameInProgress = false
+        dealerPed = getDealerFromTableId(tableId)
+        TaskPlayAnim(dealerPed, "anim_casino_b@amb@casino@games@blackjack@dealer", "reaction_good", 3.0, 1.0, -1, 2, 0, 0, 0, 0 )
+        happyIWon()
+        canExitBlackjack = true
+        drawNativeNotification("~g~You win!")
+        drawCurrentHand = false
+        currentHand = 0
+        dealersHand = 0
+    end
+end)
+
+RegisterNetEvent("Blackjack:chipsCleanup")
+AddEventHandler("Blackjack:chipsCleanup",function(chairId,tableId)
+    if closeToCasino then
+        if string.sub(chairId, -5) ~= "chips" then
+            dealerPed = getDealerFromTableId(tableId)
+            local gender = getDealerGenderFromPed(dealerPed)
+            if gender == "male" then 
+                genderAnimString = "" 
+            end 
+            if gender == "female" then 
+                genderAnimString = "female_" 
+            end
+            localChairId = getLocalChairIdFromGlobalChairId(chairId)
+            if chairId > 99 then --if "chairId" is above 99 its not a chair Id, its the gameId so its the dealers turn
+                TaskPlayAnim(dealerPed, "anim_casino_b@amb@casino@games@blackjack@dealer", genderAnimString .. "retrieve_own_cards_and_remove", 3.0, 1.0, -1, 2, 0, 0, 0, 0)
+                PlayFacialAnim(dealerPed, genderAnimString .. "retrieve_own_cards_and_remove_facial", "anim_casino_b@amb@casino@games@blackjack@dealer")
+            else
+                TaskPlayAnim(dealerPed, "anim_casino_b@amb@casino@games@blackjack@dealer", genderAnimString .. "retrieve_cards_player_0" .. tostring(localChairId), 3.0, 1.0, -1, 2, 0, 0, 0, 0)
+                PlayFacialAnim(dealerPed, genderAnimString .. "retrieve_cards_player_0" .. tostring(localChairId).."_facial", "anim_casino_b@amb@casino@games@blackjack@dealer")
+            end
+            while not HasAnimEventFired(dealerPed,-1345695206) do
+                --print("waiting for -1345695206 to fire")
+                Wait(0)
+            end
+            for k,v in pairs(cardObjects) do
+                if k == chairId then
+                    for k2,v2 in pairs(v) do
+                        --print("attach entity chairId",k,"objkey",k2," objvalue",v2)
+                        AttachEntityToEntity(v2, dealerPed, GetPedBoneIndex(dealerPed,28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0, 0, 1, 2, 1)
+                    end
+                end
+            end
+            while not HasAnimEventFired(dealerPed,585557868) do
+                --print("waiting for 585557868 to fire")
+                Wait(0)
+            end
+            for k,v in pairs(cardObjects) do
+                if k == chairId then
+                    for k2,v2 in pairs(v) do
+                        DeleteEntity(v2)
+                        --v[k2] = nil
+                    end
+                end
+            end
         else
-            TaskPlayAnim(dealerPed, "anim_casino_b@amb@casino@games@blackjack@dealer", genderAnimString .. "retrieve_cards_player_0" .. tostring(localChairId), 3.0, 1.0, -1, 2, 0, 0, 0, 0)
-            PlayFacialAnim(dealerPed, genderAnimString .. "retrieve_cards_player_0" .. tostring(localChairId).."_facial", "anim_casino_b@amb@casino@games@blackjack@dealer")
-        end
-        while not HasAnimEventFired(dealerPed,-1345695206) do
-            --print("waiting for -1345695206 to fire")
-            Wait(0)
-        end
-        for k,v in pairs(cardObjects) do
-            if k == chairId then
-                for k2,v2 in pairs(v) do
-                    --print("attach entity chairId",k,"objkey",k2," objvalue",v2)
-                    AttachEntityToEntity(v2, dealerPed, GetPedBoneIndex(dealerPed,28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0, 0, 1, 2, 1)
-                end
-            end
-        end
-        while not HasAnimEventFired(dealerPed,585557868) do
-            --print("waiting for 585557868 to fire")
-            Wait(0)
-        end
-        for k,v in pairs(cardObjects) do
-            if k == chairId then
-                for k2,v2 in pairs(v) do
-                    DeleteEntity(v2)
-                    --v[k2] = nil
-                end
-            end
-        end
-    else
-        for k,v in pairs(cardObjects) do
-            if k == chairId then
-                for k2,v2 in pairs(v) do
-                    DeleteEntity(v2)
-                    --v[k2] = nil
+            for k,v in pairs(cardObjects) do
+                if k == chairId then
+                    for k2,v2 in pairs(v) do
+                        DeleteEntity(v2)
+                        --v[k2] = nil
+                    end
                 end
             end
         end
