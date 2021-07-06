@@ -477,110 +477,28 @@ function chairIdToTableId(chairId)
 end
 
 function getCardNumberFromCardId(cardId)
-    if cardId == 1 then
-        return 11
-    elseif cardId == 2 then
-        return 2
-    elseif cardId == 3 then
-        return 3
-    elseif cardId == 4 then
-        return 4
-    elseif cardId == 5 then
-        return 5
-    elseif cardId == 6 then
-        return 6
-    elseif cardId == 7 then
-        return 7
-    elseif cardId == 8 then
-        return 8
-    elseif cardId == 9 then
-        return 9
-    elseif cardId == 10 then
-        return 10
-    elseif cardId == 11 then
-        return 10
-    elseif cardId == 12 then
-        return 10
-    elseif cardId == 13 then
-        return 10
-    elseif cardId == 14 then
-        return 11
-    elseif cardId == 15 then
-        return 2
-    elseif cardId == 16 then
-        return 3
-    elseif cardId == 17 then
-        return 4        
-    elseif cardId == 18 then
-        return 5
-    elseif cardId == 19 then
-        return 6
-    elseif cardId == 20  then
-        return 7
-    elseif cardId == 21 then
-        return 8
-    elseif cardId == 22 then
-        return 9
-    elseif cardId == 23 then
-        return 10
-    elseif cardId == 24 then
-        return 10
-    elseif cardId == 25 then
-        return 10
-    elseif cardId == 26 then
-        return 10
-    elseif cardId == 27 then
-        return 11
-    elseif cardId == 28 then
-        return 2
-    elseif cardId == 29 then
-        return 3
-    elseif cardId == 30 then
-        return 4
-    elseif cardId == 31 then
-        return 5
-    elseif cardId == 32 then
-        return 6
-    elseif cardId == 33 then
-        return 7
-    elseif cardId == 34 then
-        return 8
-    elseif cardId == 35 then
-        return 9
-    elseif cardId == 36 then
-        return 10
-    elseif cardId == 37 then
-        return 10
-    elseif cardId == 38 then
-        return 10
-    elseif cardId == 39 then
-        return 10
-    elseif cardId == 40 then
-        return 11
-    elseif cardId == 41 then
-        return 2
-    elseif cardId == 42 then
-        return 3
-    elseif cardId == 43 then
-        return 4
-    elseif cardId == 44 then
-        return 5
-    elseif cardId == 45 then
-        return 6
-    elseif cardId == 46 then
-        return 7
-    elseif cardId == 47 then
-        return 8
-    elseif cardId == 48 then
-        return 9
-    elseif cardId == 49 then
-        return 10
-    elseif cardId == 50 then
-        return 10
-    elseif cardId == 51 then
-        return 10
-    elseif cardId == 52 then
-        return 10
+    local num_cardId = {
+        ["1"] = 11,["2"] = 2,["3"] = 3,
+        ["4"] = 4,["5"] = 5,["6"] = 6,
+        ["7"] = 7,["8"] = 8,["9"] = 9,
+        ["10"] = 10,["11"] = 10,["12"] = 10,
+        ["13"] = 10,["14"] = 11,["15"] = 2,
+        ["16"] = 3,["17"] = 4,["18"] = 5,
+        ["19"] = 6,["20"] = 7,["21"] = 8,
+        ["22"] = 9,["23"] = 10,["24"] = 10,
+        ["25"] = 10,["26"] = 10,["27"] = 11,
+        ["28"] = 2,["29"] = 3,["30"] = 4,
+        ["31"] = 5,["32"] = 6,["33"] = 7,
+        ["34"] = 8,["35"] = 9,["36"] = 10,
+        ["37"] = 10,["38"] = 10,["39"] = 10,
+        ["40"] = 11,["41"] = 2,["42"] = 3,
+        ["43"] = 4,["44"] = 5,["45"] = 6,
+        ["46"] = 7,["47"] = 8,["48"] = 9,
+        ["49"] = 10,["50"] = 10,["51"] = 10,
+        ["52"] = 10
+    }
+    for k,v in pairs(num_cardId) do
+        if k == cardId then return tonumber(v) end
     end
 end
 
