@@ -251,6 +251,7 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
+    local startTime = GetGameTimer()
     while true do 
         if waitingForBetState then
             if IsDisabledControlJustPressed(0, 22) then --Custom Bet [space]
@@ -274,12 +275,16 @@ Citizen.CreateThread(function()
                     notify("~r~Invalid amount.")
                 end
             end
-            if IsControlPressed(0, 10) then --Increase bet [pageup]
+            if IsControlPressed(0, 10) and GetGameTimer()-startTime > 250 then --Increase bet [pageup]
+		startTime = GetGameTimer()
                 currentBetAmount = currentBetAmount + 100
             end            
-            if IsControlPressed(0, 11) then --Decrease bet [pagedown]
+            if IsControlPressed(0, 11) and GetGameTimer()-startTime > 250 then --Decrease bet [pagedown]
                 if currentBetAmount >= 100 then 
+		    startTime = GetGameTimer()
                     currentBetAmount = currentBetAmount - 100
+		else
+		    notify('~r~ Minimum bet reached')
                 end
             end            
         end
