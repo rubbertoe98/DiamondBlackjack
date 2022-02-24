@@ -41,7 +41,14 @@ local cfg = {}
 
 --Please note the config order is important, dealerPositions must start from 0 and increase consecutively 
 cfg.blackjackTables = {
-    --[id] = {x,y,z,heading}
+--      [0] = { 
+--         dealerPos = vector3(XX.XX,YY.YY,ZZ.ZZ), Have to get this yourself using any coordinates script
+--         dealerHeading = 00.00, Make sure it ends with a decimal (Needs to be a float)
+--         tablePos = vector3(XX.XX,YY.YY,ZZ.ZZ), This should be provieded when you use /getcasinotable
+--         tableHeading = 00.00, This should be provieded when you use /getcasinotable. Make sure it ends with a decimal
+--         distance = 1000.0, Shouldn't have to change this
+--         prop = "vw_prop_casino_blckjack_01b" The prop name
+--     },
     [0] = {
         dealerPos = vector3(1149.3828125,269.19174194336,-52.020873718262),
         dealerHeading = 46.0,
