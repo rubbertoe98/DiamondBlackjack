@@ -28,6 +28,12 @@ How to install:
 5. Copy the src from the RageUI repo into the DiamondBlackjack folder
 6. Start your resource and don't go over 21!
 
+How to add more tables:
+1. Do /getcasinotable ingame near to the table you would like to add Blackjack to. (This should print some information in your F8)
+2. Open cl_blackjack.lua and find cfg.blackjackTables.
+3. Copying the format provided, insert the information as it is given to you in your F8
+4. Restart your script and you should be able to play blackjack on that table
+
 Credits:
 * Thank you to RageUI for allowing the easy creation of the instructions & teleport menu
 * Rockstar for the decompiled scripts :heart: 
