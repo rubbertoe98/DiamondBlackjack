@@ -77,7 +77,7 @@ cfg.blackjackTables = {
 }
 
 --Use this command to get the coords you need for setting up new tables. 
---Some maps use the prop vw_prop_casino_blckjack_01 some use vw_prop_casino_blckjack_01b, so change accordingly.
+--Some maps use the prop vw_prop_casino_blckjack_01 some use vw_prop_casino blckjack_01b, so change accordingly.
 RegisterCommand("getcasinotable",function()
     local playerCoords = GetEntityCoords(PlayerPedId())
     local blackjackTable = GetClosestObjectOfType(playerCoords.x,playerCoords.y,playerCoords.z,3.0,GetHashKey("vw_prop_casino_blckjack_01"),0,0,0)

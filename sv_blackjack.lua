@@ -348,7 +348,12 @@ for i=0,31,1 do
                                         --print("dealerHand: " .. tostring(dealerHand))
                                         if currentHand ~= nil then
                                             if currentHand <= 21 then
-                                                local potentialWinAmount = blackjackGameData[gameId][source][1] * 2
+                                                local potentialWinAmount
+                                                if currentHand == 21 and #blackjackGameData[gameId][source]["cardData"] == 2 then
+                                                    potentialWinAmount = blackjackGameData[gameId][source][1] * 2.5
+                                                else
+                                                    potentialWinAmount = blackjackGameData[gameId][source][1] * 2
+                                                end
                                                 local potentialPushAmount = blackjackGameData[gameId][source][1]
                                                 local playerPing = GetPlayerPing(source)
                                                 if dealerHand > 21 then
